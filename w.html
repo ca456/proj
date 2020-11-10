@@ -1,0 +1,226 @@
+<html>
+<head>
+<script>
+function imageZoom(imgID, resultID) {
+  var img, lens, result, cx, cy;
+  img = document.getElementById(imgID);
+  result = document.getElementById(resultID);
+  /*create lens:*/
+  lens = document.createElement("DIV");
+  lens.setAttribute("class", "img-zoom-lens");
+  /*insert lens:*/
+  img.parentElement.insertBefore(lens, img);
+  /*calculate the ratio between result DIV and lens:*/
+  cx = result.offsetWidth / lens.offsetWidth;
+  cy = result.offsetHeight / lens.offsetHeight;
+  /*set background properties for the result DIV*/
+  result.style.backgroundImage = "url('" + img.src + "')";
+  result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+  /*execute a function when someone moves the cursor over the image, or the lens:*/
+  lens.addEventListener("mousemove", moveLens);
+  img.addEventListener("mousemove", moveLens);
+  /*and also for touch screens:*/
+  lens.addEventListener("touchmove", moveLens);
+  img.addEventListener("touchmove", moveLens);
+  function moveLens(e) {
+    var pos, x, y;
+    /*prevent any other actions that may occur when moving over the image*/
+    e.preventDefault();
+    /*get the cursor's x and y positions:*/
+    pos = getCursorPos(e);
+    /*calculate the position of the lens:*/
+    x = pos.x - (lens.offsetWidth / 2);
+    y = pos.y - (lens.offsetHeight / 2);
+    /*prevent the lens from being positioned outside the image:*/
+    if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+    if (x < 0) {x = 0;}
+    if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+    if (y < 0) {y = 0;}
+    /*set the position of the lens:*/
+    lens.style.left = x + "px";
+    lens.style.top = y + "px";
+    /*display what the lens "sees":*/
+    result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+  }
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    /*get the x and y positions of the image:*/
+    a = img.getBoundingClientRect();
+    /*calculate the cursor's x and y coordinates, relative to the image:*/
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    /*consider any page scrolling:*/
+    x = x - window.pageXOffset;
+    y = y - window.pageYOffset;
+    return {x : x, y : y};
+  }
+}
+</script>
+
+<style>
+* {box-sizing: border-box;}
+
+.img-zoom-container {
+  position: relative;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+ 
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 400px;
+  height: 200px;
+}
+#second {border-radius:220px;}
+#myimage {border-radius:280px;}
+</style>
+</head>
+<body>
+<div style="background-color:black;color:white; box-shadow: 5px 10px 5px grey;">
+<p><h1 style="color:#FFD700;text-align:left;text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;"><font family=Microsoft Sans Serif size=7><h1>Asus Rog </font></h1></p>
+<table><tr><td><br></td><td><br></td><td><td><center><img id="second" src="https://4.bp.blogspot.com/-LbDjT_vGvvI/WxSjEV45_DI/AAAAAAAA7YU/8OLkaO-HIMMj7frefUQjhKTfwQqxSo1QgCLcBGAs/s1600/asus-rog-phone-display.png"></img></center><td><br></td><td><br></td><td><td><br></td><td><br></td><td><td><br></td><td><br></td><td><td><br></td><td><br></td><td><center> <div class="img-zoom-container"> <img id="myimage" src="https://4.bp.blogspot.com/-8Owz1ZbDzUg/WxSjDINtNwI/AAAAAAAA7YM/DZJhSpWZI1cRHiq9N9JLrevJUk1AMtgnwCLcBGAs/s1600/asus-rog-phone-back.png"></center><div id="myresult" class="img-zoom-result"></div>
+</div></td></tr></table>
+<p><h1 style="text-align:left;text-shadow: 2px 2px 5px red;"><font family=Microsoft Sans Serif size=5>Asus ROG Phone smartphone was launched in June 2018. The phone comes with a 6.00-inch touchscreen display with a resolution of 1080 pixels by 2160 pixels.
+
+The Asus ROG Phone is powered by 2.96GHz octa-core (4x2.96GHz + 4x1.7GHz) processor and it comes with 8GB of RAM. The phone packs 512GB of internal storage that cannot be expanded. As far as the cameras are concerned, the Asus ROG Phone packs a 12-megapixel (f/1.8, 1.4-micron) + 8-megapixel primary camera on the rear and a 8-megapixel front shooter for selfies.
+
+The Asus ROG Phone is powered by a 4000mAh. It measures 158.80 x 76.20 x 8.60 (height x width x thickness) and weighs 200.00 grams.
+
+Connectivity options include Wi-Fi, GPS, Bluetooth, NFC, USB Type-C and FM. Sensors on the phone include Fingerprint sensor, Compass/ Magnetometer, Proximity sensor, Accelerometer, Ambient light sensor and Gyroscope.
+</p>
+<p><h1 style="color:#DAA520;text-align:left;text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;"><font family=Microsoft Sans Serif size=7>About Asus</font></h1></p>
+
+ASUSTeK Computer Inc., known as ASUS, is a Taiwanese multinational computer hardware and electronics company was founded in 1989 in Taiwan. ASUS is one of the world's largest computer hardware companies. Its products include desktops, PC peripherals, laptops, smartphones, tablets and hybrid devices. The company has made Android phones powered by Intel and Qualcomm SoCs.</font></h1></p>
+</div>
+<br>
+<hr>
+<table width=100% style="text-align:center;background-image: linear-gradient(darkgrey, white); box-shadow: 5px 10px 5px grey;"><tr>
+<td><h1>Key Specs</h1></td>
+<td><h2>Display<br>
+6.00-inch</tD>
+<tD><h2>Processor<bR>
+2.96GHz octa-core</td>
+<td><h2>Front Camera<br>
+8-megapixel</td></tr>
+<tr>
+<tr><td><br></td><td><br></td><td><br></td><td><br></td></tr>
+<tr>
+<tD></tD>
+<tD><h2>Resolution<br>
+1080x2160 pixels</td>
+<td><h2>RAM<br>
+8GB</td>
+<tD><h2>OS<br>
+Android 8.1</td></tr>
+<tr>
+<tr><td><br></td><td><br></td><td><br></td><td><br></td></tr>
+<tr>
+<tD></tD>
+<tD ><h2>Storage<br>
+512GB<br></tD>
+<td ><h2>Release date<br>
+June 2018<br>
+</td>
+<td ><h2>Colors<br>
+Red,Black,Silver<br>
+</td>
+
+</tr>
+</table>
+<br>
+<br>
+<hr>
+<p><h1 style="text-align:left;text-decoration:underline;text-shadow: 0 0 3px #FF0000, 0 0 5px #FF0000;"><font family=Microsoft Sans Serif size=7>Asus ROG Phone full specifications</font></p></h1>
+<center><table width="100%" style="text-align:center; box-shadow: 5px 10px 5px grey;background-image: linear-gradient(to bottom right, white, darkgrey);">
+<tr>
+<td><font family=Microsoft Sans Serif size=7>GENERAL</font>
+<ul>
+<li>Release date-June 2018
+<li>Form factor	-Touchscreen
+<li>Dimensions (mm)-	158.80 x 76.20 x 8.60
+<li>Weight (g)	-200.00
+<li>Battery capacity (mAh)	-4000
+<li>Fast charging	-Quick Charge 4+
+<li>Colours	-Black
+</ul>
+</td>
+<td style="color:red;"><font family=Microsoft Sans Serif size=7>DISPLAY</font>
+<ul>
+<li>Screen size (inches)-	6.00
+<li>Touchscreen-	Yes
+<li>Resolution	-1080x2160 pixels
+<li>Protection type	-Gorilla Glass
+<li>Aspect ratio-	18:9
+</ul>
+</td>
+<td ><font family=Microsoft Sans Serif size=7>HARDWARE</font>
+<ul>
+<li>Processor	-2.96GHz octa-core (4x2.96GHz + 4x1.7GHz)
+<li>Processor make-	Qualcomm Snapdragon 845
+<li>RAM-	8GB
+<li>Internal storage-	512GB
+<li>Expandable storage-	No
+</ul>
+</td>
+
+<td style="color:red;"><font family=Microsoft Sans Serif size=7>CAMERA</font>
+<ul>
+<li>Rear camera	-12-megapixel (f/1.8, 1.4-micron) + 8-megapixel
+<li>Rear flash	-LED
+<li>Front camera	-8-megapixel (f/2.0)
+</ul>
+</td>
+</tr>
+<tr><td><br></td><td><br></td><td><br></td><td><br></td></tr>
+<tr>
+<td style="color:red;"><font family=Microsoft Sans Serif size=7>SOFTWARE</font>
+<ul>
+<li>Operating system-	Android 8.1
+<li>Skin-	ROG Gaming UI
+</ul>
+</td>
+<td ><font family=Microsoft Sans Serif size=7>CONNECTIVITY</font>
+<ul>
+<li>Wi-Fi-	Yes
+<li>GPS	-Yes
+<li>Bluetooth	Yes, -v 5.00
+<li>NFC	-Yes
+<li>USB Type-C	-Yes
+<li>Headphones-	3.5mm
+</ul>
+</td>
+<td style="color:red;"><font family=Microsoft Sans Serif size=7>SENSORS</font>
+<ul>
+<li>Fingerprint sensor	-Yes
+<li>Compass/ Magnetometer	-Yes
+<li>Proximity sensor	-Yes
+<li>Accelerometer	-Yes
+<li>Ambient light sensor-	Yes
+<li>Gyroscope-	Yes
+</ul>
+</td>
+<td  ><font family=Microsoft Sans Serif size=7>Price</font>
+<ul>
+<li>Rs.35,990(Flipkart)
+<li>Rs.36,000(Amazon)
+<li>Rs.36,090(AliBaba.com)
+</ul>
+</td>
+</tr>
+</table>
+<br>
+<script>
+imageZoom("myimage", "myresult");
+</script>
+
+</body>
+</html>
